@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+    <title>Smoothie Chart Example</title>
+    <script type="text/javascript" src="smoothie.js"></script>
+    <script type="text/javascript" src="jquery.js"></script>
+
+  </head>
+  <body>
+
+    <canvas id="mycanvas" width="1100" height="300"></canvas>
+
+    <script type="text/javascript">
+    //var smoothie = new SmoothieChart();
+    //smoothie.streamTo(document.getElementById("mycanvas"));
+
+var line1 = new TimeSeries();
+var line2 = new TimeSeries();
+var line3 = new TimeSeries();
+var line4 = new TimeSeries();
+var line5 = new TimeSeries();
+setInterval(function(getRequest) {
+  // Do something every 5 seconds
+
+$.get('http://192.168.0.2/').done(function(response) {
+  var a = response.split(/[;]+/);
+  var b = a[0].split(/[:]+/);
+  var c = a[1].split(/[:]+/);
+  var d = a[2].split(/[:]+/);
+  var e = a[3].split(/[:]+/);
+  var f = a[4].split(/[:]+/);
+
+  var
+    x = Date.parse(new Date()+1000) ,
+    y = Number.parseFloat(b[1]) ,
+    z = Number.parseFloat(c[1]) ,
+    g = Number.parseFloat(d[1]) ,
+    h = Number.parseFloat(e[1]) ,
+    i = Number.parseFloat(f[1])
+    ;
+
+    //setInterval(function() {
+      line1.append(new Date().getTime(), y);
+      line2.append(new Date().getTime(), z);
+      line3.append(new Date().getTime(), g);
+      line4.append(new Date().getTime(), h);
+      line5.append(new Date().getTime(), i);
+    //}, 2000);
+});
+}, 2000);
+
+// Add a random value to each line every second
+
+
+// Add to SmoothieChart
+//smoothie.addTimeSeries(line1);
+//smoothie.addTimeSeries(line2);
+function myYRangeFunction(range) {
+  // TODO implement your calculation using range.min and range.max
+  var min = -20;
+  var max = 100;
+  return {min: min, max: max};
+}
+
+var smoothie = new SmoothieChart({ millisPerPixel:34, yRangeFunction:myYRangeFunction,timestampFormatter:SmoothieChart.timeFormatter, grid: { sharpLines:true, strokeStyle: 'rgb(125, 0, 0)', fillStyle: 'rgb(60, 0, 0)', lineWidth: 1, millisPerLine: 250, verticalSections: 6 } });
+      smoothie.addTimeSeries(line1, { strokeStyle: 'rgb(0, 255, 0)', lineWidth: 3 });
+      smoothie.addTimeSeries(line2, { strokeStyle: 'rgb(255, 0, 255)', lineWidth: 3 });
+      smoothie.addTimeSeries(line3, { strokeStyle: 'rgb(249,233,34)', lineWidth: 3 });
+      smoothie.addTimeSeries(line4, { strokeStyle: 'rgb(255,255,255)', lineWidth: 3 });
+      smoothie.addTimeSeries(line5, { strokeStyle: 'rgb(29,171,201)', lineWidth: 3 });
+
+smoothie.addTimeSeries(line1, {lineWidth:4,strokeStyle:'rgba(255,255,255,0.13)'});
+smoothie.streamTo(document.getElementById("mycanvas"), 2000 /*delay*/);
+</script>
+</body>
+</html>
